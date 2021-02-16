@@ -16,7 +16,7 @@ import org.json.simple.parser.JSONParser;
 public class lolDAO {
 	static Object aid = null;
 	static String sname = null;
-	static String api = "RGAPI-e2dd8d69-1688-4da6-8e18-e30cc46ab93b";	
+	static String api = "RGAPI-c4b516a8-c0ee-42d9-8f56-ce2e240ddd5d";	
 	
 	static HttpsURLConnection huc =null;
 	public static void idck(HttpServletRequest request) {
