@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -16,7 +17,7 @@ import org.json.simple.parser.JSONParser;
 public class loljeonjeok {
 	HttpsURLConnection huc = null;
 	String api = "RGAPI-a531df28-32d7-4b3e-bbf7-78897704cbd4";
-	String sname = "마국밥무봤나";
+	String sname = "김길수짱";
 
 	public String idck() {
 
@@ -71,23 +72,23 @@ public class loljeonjeok {
 			System.out.println(loldata.get("matches"));
 			JSONObject matches = (JSONObject) jjs.get(0);
 			System.out.println(matches.get("gameId"));
-		for (int i = 0; i < 11; i++) {
-			
-			JSONObject jj = (JSONObject) jjs.get(i);
-			System.out.println("게임번호 " + jj.get("gameId"));
-			System.out.println("게임 타입 " + queuetype.queue(Integer.parseInt(jj.get("queue").toString())));
-			//	System.out.println("사용한 챔피언 " +  jj.get("champion"));
+			for (int i = 0; i < 11; i++) {
+
+				JSONObject jj = (JSONObject) jjs.get(i);
+				System.out.println("게임번호 " + jj.get("gameId"));
+				System.out.println("게임 타입 " + queuetype.queue(Integer.parseInt(jj.get("queue").toString())));
+				// System.out.println("사용한 챔피언 " + jj.get("champion"));
 				// int champkey = Integer.parseInt(jj.get("champion").toString());
-			System.out.println("사용한 챔피언 " +  champ.champnameKr(Integer.parseInt(jj.get("champion").toString())));
-			
-			Date timestamp = new Date((long) jj.get("timestamp"));
-			System.out.println(timestamp);
-			//		System.out.println("타임스탬프 " +  jj.get("timestamp"));
-			
-			System.out.println("=====================");
-		}
-		//1612965618237 1612967175349
-		return matches.get("gameId");
+				System.out.println("사용한 챔피언 " + champ.champnameKr(Integer.parseInt(jj.get("champion").toString())));
+
+				Date timestamp = new Date((long) jj.get("timestamp"));
+				System.out.println(timestamp);
+				// System.out.println("타임스탬프 " + jj.get("timestamp"));
+
+				System.out.println("=====================");
+			}
+			// 1612965618237 1612967175349
+			return matches.get("gameId");
 			// System.out.println("34");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -105,27 +106,80 @@ public class loljeonjeok {
 			url = url + mid + "?api_key=" + api;
 			URL u = new URL(url);
 			huc = (HttpsURLConnection) u.openConnection();
-//		huc.addRequestProperty("X-Riot-Token", api);
 			InputStream is = huc.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is, "utf-8");
 
 			JSONParser jp = new JSONParser();
 			JSONObject loldata = (JSONObject) jp.parse(isr);
-			System.out.println(loldata);
+			System.out.println("게임타입 : " + queuetype.queue(Integer.parseInt(loldata.get("queueId").toString())));
 			JSONArray participantIdentities = (JSONArray) loldata.get("participantIdentities");
+			JSONArray participants = (JSONArray) loldata.get("participants");
+			JSONArray teams = (JSONArray) loldata.get("teams");
 //	JSONArray player = (JSONArray) participantIdentities.get("player");
-			for (int i = 0; i < participantIdentities.size(); i++) {
+			JSONObject blueteaminfo = (JSONObject) teams.get(0);
+			JSONObject purpleteaminfo = (JSONObject) teams.get(1);
+if (Integer.parseInt(loldata.get("queueId").toString()) == 420) {
+	JSONArray bluebans = (JSONArray) blueteaminfo.get("bans");
+	JSONArray purplebans = (JSONArray) purpleteaminfo.get("bans");
+	System.out.println("블루팀 밴");
+	for (int i = 0; i < bluebans.size(); i++) {
+		JSONObject blueban =  (JSONObject) bluebans.get(i);
+		System.out.println(champ.champnameKr(Integer.parseInt(blueban.get("championId").toString())));
+	}
+	System.out.println("퍼플팀 밴");
+	for (int i = 0; i < purplebans.size(); i++) {
+		JSONObject purpleban =  (JSONObject) purplebans.get(i);
+		System.out.println(champ.champnameKr(Integer.parseInt(purpleban.get("championId").toString())));
+	}
 
-				JSONObject participant = (JSONObject) participantIdentities.get(i);
-				JSONObject player = (JSONObject) participant.get("player");
-				System.out.println("사용자번호 " + participant.get("participantId"));
+
+
+}			
+
+			
+
+//			if (blueteaminfo.get("win").equals("Win")) {
+//				bluer = "Win";
+//				purr = "Lose";
+//			}
+//			if (purpleteaminfo.get("win").equals("Win")) {
+//				bluer = "Lose";
+//				purr = "Win";
+//			}
+			System.out.println("=====================");
+
+			for (int i = 0; i < participantIdentities.size(); i++) {
+				JSONObject participant1 = (JSONObject) participants.get(i);
+				JSONObject stats = (JSONObject) participant1.get("stats");
+				JSONObject participant2 = (JSONObject) participantIdentities.get(i);
+				JSONObject player = (JSONObject) participant2.get("player");
+				int pId = Integer.parseInt(participant2.get("participantId").toString());
+				System.out.println("사용자번호 " + pId);
+				if ((boolean) stats.get("win")) {
+					System.out.println("게임 결과 : 승리 ");
+				} else {
+					System.out.println("게임 결과 : 패배 ");
+				}
 				System.out.println("소환사명 " + player.get("summonerName"));
+				System.out.println(
+						"플레이한 챔피언 :" + champ.champnameKr(Integer.parseInt(participant1.get("championId").toString())));
+				System.out.println(
+						stats.get("kills") + "/" + stats.get("deaths") + "/" + stats.get("assists") + "\nkda : "
+								+ ((Double.parseDouble(stats.get("kills").toString())
+										+ Integer.parseInt(stats.get("assists").toString()))
+										/ Integer.parseInt(stats.get("deaths").toString())));
+
+				System.out.println("구매한 아이템 : " + stats.get("item0") + "," + stats.get("item1") + ","
+						+ stats.get("item2") + "," + stats.get("item3") + "," + stats.get("item4") + ","
+						+ stats.get("item5") + "\n장신구: " + stats.get("item6"));
+				if ((boolean) stats.get("firstBloodKill")) {
+					System.out.println("선취점!");
+				}
 				System.out.println("=====================");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("오류~~");
 
+			e.printStackTrace();
 		}
 
 	}
@@ -137,7 +191,6 @@ public class loljeonjeok {
 //	URL u = new URL(url);
 //	huc = (HttpsURLConnection) u.openConnection();
 
-
 //	InputStream is = huc.getInputStream();
 			InputStream is = new URL(url).openStream();
 			InputStreamReader isr = new InputStreamReader(is, "utf-8");
@@ -147,19 +200,18 @@ public class loljeonjeok {
 			JSONParser jp = new JSONParser();
 //			JSONObject loldata = (JSONObject) jp.parse(isr);
 			JSONObject loldata2 = (JSONObject) jp.parse(data);
-JSONObject data2 = (JSONObject) loldata2.get("data");
-JSONObject Aatrox = (JSONObject) data2.get("Aatrox");
-for (int i = 0; i < data2.size(); i++) {
-	
-}
-System.out.println(Aatrox.get("key"));
+			JSONObject data2 = (JSONObject) loldata2.get("data");
+			JSONObject Aatrox = (JSONObject) data2.get("Aatrox");
+			for (int i = 0; i < data2.size(); i++) {
+
+			}
+			System.out.println(Aatrox.get("key"));
 
 //			System.out.println(loldata);
-		//	System.out.println("??");
+			// System.out.println("??");
 //			System.out.println(Aatrox);
-			
-			//JSONArray ja = 
-			
+
+			// JSONArray ja =
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -853,7 +853,7 @@ public class champ {
 			return ChampNameKr = "아무무";
 			 
 		case 41:
-			return ChampNameKr = "갱플랭";
+			return ChampNameKr = "갱플랭크";
 			 
 		case 48:
 			return ChampNameKr = "트런들";
