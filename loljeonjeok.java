@@ -14,12 +14,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-// integer.paser ~~ ´Â °ªµéÀÌ ´Ù ¿ÀºêÁ§Æ®Çü½ÄÀÌ¶ó »ç¿ëÀÌ ¾ÈµÇ¼­ Çß¾¹´Ï´Ù. È¤½Ã³ª º¯È¯ ÀÌ·¸°Ô ¾ÈÇÏ°í »ç¿ëÇÏ½Ç¼ö ÀÖ´Â¹ıÀ» ¾Æ½Å´Ù¸é ¾Ë·ÁÁÖ¼¼¿ä! 
+// integer.paser ~~ ëŠ” ê°’ë“¤ì´ ë‹¤ ì˜¤ë¸Œì íŠ¸í˜•ì‹ì´ë¼ ì‚¬ìš©ì´ ì•ˆë˜ì„œ í–ˆì”ë‹ˆë‹¤. í˜¹ì‹œë‚˜ ë³€í™˜ ì´ë ‡ê²Œ ì•ˆí•˜ê³  ì‚¬ìš©í•˜ì‹¤ìˆ˜ ìˆëŠ”ë²•ì„ ì•„ì‹ ë‹¤ë©´ ì•Œë ¤ì£¼ì„¸ìš”! 
 
 public class loljeonjeok {
 	HttpsURLConnection huc = null;
 	String api = "RGAPI-a531df28-32d7-4b3e-bbf7-78897704cbd4";
-	String sname = "±è±æ¼öÂ¯";
+	String sname = "ê¹€ê¸¸ìˆ˜ì§±";
 
 	public String idck() {
 
@@ -35,8 +35,8 @@ public class loljeonjeok {
 			JSONParser jp = new JSONParser();
 			JSONObject loldata = (JSONObject) jp.parse(isr);
 			System.out.println(loldata.get("name"));
-			System.out.println("¾îÄ«¿îÆ®id " + loldata.get("accountId"));
-			System.out.println("¼ÒÈ¯»ç ·¹º§ " + loldata.get("summonerLevel"));
+			System.out.println("ì–´ì¹´ìš´íŠ¸id " + loldata.get("accountId"));
+			System.out.println("ì†Œí™˜ì‚¬ ë ˆë²¨ " + loldata.get("summonerLevel"));
 			
 			return (String) loldata.get("accountId");
 
@@ -65,21 +65,21 @@ public class loljeonjeok {
 			
 			for (int i = 0; i < 11; i++) {
 				JSONObject jj = (JSONObject) jjs.get(i);
-				System.out.println("°ÔÀÓ¹øÈ£ " + jj.get("gameId"));
-				System.out.println("°ÔÀÓ Å¸ÀÔ " + queuetype.queue(Integer.parseInt(jj.get("queue").toString())));
-				// System.out.println("»ç¿ëÇÑ Ã¨ÇÇ¾ğ " + jj.get("champion"));
+				System.out.println("ê²Œì„ë²ˆí˜¸ " + jj.get("gameId"));
+				System.out.println("ê²Œì„ íƒ€ì… " + queuetype.queue(Integer.parseInt(jj.get("queue").toString())));
+				// System.out.println("ì‚¬ìš©í•œ ì±”í”¼ì–¸ " + jj.get("champion"));
 				// int champkey = Integer.parseInt(jj.get("champion").toString());
-				System.out.println("»ç¿ëÇÑ Ã¨ÇÇ¾ğ " + champ.champnameKr(Integer.parseInt(jj.get("champion").toString())));
+				System.out.println("ì‚¬ìš©í•œ ì±”í”¼ì–¸ " + champ.champnameKr(Integer.parseInt(jj.get("champion").toString())));
 				Date timestamp = new Date((long) jj.get("timestamp"));
 				System.out.println(timestamp);
-				// System.out.println("Å¸ÀÓ½ºÅÆÇÁ " + jj.get("timestamp"));
+				// System.out.println("íƒ€ì„ìŠ¤íƒ¬í”„ " + jj.get("timestamp"));
 
 				System.out.println("=====================");
 			}
-			return matches.get("gameId"); // Á¦ÀÏ ÃÖ±Ù¿¡ ÇÑ °ÔÀÓ ¾ÆÀÌµğ ¸®ÅÏ
+			return matches.get("gameId"); // ì œì¼ ìµœê·¼ì— í•œ ê²Œì„ ì•„ì´ë”” ë¦¬í„´
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Ãâ·Â¿À·ù¤Ğ");
+			System.out.println("ì¶œë ¥ì˜¤ë¥˜ã… ");
 		}
 
 		return null;
@@ -98,21 +98,21 @@ public class loljeonjeok {
 
 			JSONParser jp = new JSONParser();
 			JSONObject loldata = (JSONObject) jp.parse(isr);
-			System.out.println("°ÔÀÓÅ¸ÀÔ : " + queuetype.queue(Integer.parseInt(loldata.get("queueId").toString())));
+			System.out.println("ê²Œì„íƒ€ì… : " + queuetype.queue(Integer.parseInt(loldata.get("queueId").toString())));
 			
 			JSONArray teams = (JSONArray) loldata.get("teams"); 
-			JSONObject blueteaminfo = (JSONObject) teams.get(0); // ºí·çÆÀ µ¥ÀÌÅÍ
-			JSONObject purpleteaminfo = (JSONObject) teams.get(1); // ·¹µåÆÀ µ¥ÀÌÅÍ
+			JSONObject blueteaminfo = (JSONObject) teams.get(0); // ë¸”ë£¨íŒ€ ë°ì´í„°
+			JSONObject purpleteaminfo = (JSONObject) teams.get(1); // ë ˆë“œíŒ€ ë°ì´í„°
 			
-			if (Integer.parseInt(loldata.get("queueId").toString()) == 420) { // ¼Ö·Î·©Å© ÀÏ¶§¸¸ ¹ê ¸ñ·Ï Ãâ·Â
+			if (Integer.parseInt(loldata.get("queueId").toString()) == 420) { // ì†”ë¡œë­í¬ ì¼ë•Œë§Œ ë°´ ëª©ë¡ ì¶œë ¥
 				JSONArray bluebans = (JSONArray) blueteaminfo.get("bans");
 				JSONArray purplebans = (JSONArray) purpleteaminfo.get("bans");
-				System.out.println("ºí·çÆÀ ¹ê : ");
+				System.out.println("ë¸”ë£¨íŒ€ ë°´ : ");
 				for (int i = 0; i < bluebans.size(); i++) {
 					JSONObject blueban = (JSONObject) bluebans.get(i);
 					System.out.println(champ.champnameKr(Integer.parseInt(blueban.get("championId").toString())));
 				}
-				System.out.println("ÆÛÇÃÆÀ ¹ê : ");
+				System.out.println("í¼í”ŒíŒ€ ë°´ : ");
 				for (int i = 0; i < purplebans.size(); i++) {
 					JSONObject purpleban = (JSONObject) purplebans.get(i);
 					System.out.println(champ.champnameKr(Integer.parseInt(purpleban.get("championId").toString())));
@@ -123,36 +123,38 @@ public class loljeonjeok {
 
 			System.out.println("=====================");
 			JSONArray participantIdentities = (JSONArray) loldata.get("participantIdentities");
-			JSONArray participants = (JSONArray) loldata.get("participants"); // ±¸¼º¿ø µ¥ÀÌÅÍ
+			JSONArray participants = (JSONArray) loldata.get("participants"); // êµ¬ì„±ì› ë°ì´í„°
 
 			for (int i = 0; i < participantIdentities.size(); i++) {
-				JSONObject participant1 = (JSONObject) participants.get(i); // ÀÎ°ÔÀÓ Á¤º¸
+				JSONObject participant1 = (JSONObject) participants.get(i); // ì¸ê²Œì„ ì •ë³´
 				JSONObject stats = (JSONObject) participant1.get("stats");
-				JSONObject participant2 = (JSONObject) participantIdentities.get(i); // ÀÎ°ÔÀÓ ¿ÜÀû Á¤º¸
+				JSONObject participant2 = (JSONObject) participantIdentities.get(i); // ì¸ê²Œì„ ì™¸ì  ì •ë³´
+				JSONObject timeline = (JSONObject) participant1.get("timeline");
 				JSONObject player = (JSONObject) participant2.get("player");
 				int pId = Integer.parseInt(participant2.get("participantId").toString());
-				System.out.println("°ÔÀÓ ³» ±¸¼º¿ø ¹øÈ£ " + pId);
+				System.out.println("ê²Œì„ ë‚´ êµ¬ì„±ì› ë²ˆí˜¸ " + pId);
 				
 				if ((boolean) stats.get("win")) {
-					System.out.println("°ÔÀÓ °á°ú : ½Â¸® ");
+					System.out.println("ê²Œì„ ê²°ê³¼ : ìŠ¹ë¦¬ ");
 				} else {
-					System.out.println("°ÔÀÓ °á°ú : ÆĞ¹è ");
+					System.out.println("ê²Œì„ ê²°ê³¼ : íŒ¨ë°° ");
 				}
 				
-				System.out.println("¼ÒÈ¯»ç¸í " + player.get("summonerName"));
+				System.out.println("ì†Œí™˜ì‚¬ëª… " + player.get("summonerName"));
 				System.out.println(
-						"ÇÃ·¹ÀÌÇÑ Ã¨ÇÇ¾ğ :" + champ.champnameKr(Integer.parseInt(participant1.get("championId").toString())));
+						"í”Œë ˆì´í•œ ì±”í”¼ì–¸ :" + champ.champnameKr(Integer.parseInt(participant1.get("championId").toString())));
 				System.out.println(
 						stats.get("kills") + "/" + stats.get("deaths") + "/" + stats.get("assists") + "\nkda : "
 								+ ((Double.parseDouble(stats.get("kills").toString())
 										+ Integer.parseInt(stats.get("assists").toString()))
 										/ Integer.parseInt(stats.get("deaths").toString())));
-
-				System.out.println("±¸¸ÅÇÑ ¾ÆÀÌÅÛ : " + stats.get("item0") + "," + stats.get("item1") + ","
+				System.out.println("ì—­í•  : " + timeline.get("role"));
+				System.out.println("ë¼ì¸ : " + timeline.get("lane"));
+				System.out.println("êµ¬ë§¤í•œ ì•„ì´í…œ : " + stats.get("item0") + "," + stats.get("item1") + ","
 						+ stats.get("item2") + "," + stats.get("item3") + "," + stats.get("item4") + ","
-						+ stats.get("item5") + "\nÀå½Å±¸: " + stats.get("item6"));
+						+ stats.get("item5") + "\nì¥ì‹ êµ¬: " + stats.get("item6"));
 				if ((boolean) stats.get("firstBloodKill")) {
-					System.out.println("¼±ÃëÁ¡!");
+					System.out.println("ì„ ì·¨ì !");
 				}
 				System.out.println("=====================");
 			}
@@ -194,7 +196,7 @@ public class loljeonjeok {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("¾ÈµÊ!");
+			System.out.println("ì•ˆë¨!");
 			// TODO: handle exception
 		}
 
