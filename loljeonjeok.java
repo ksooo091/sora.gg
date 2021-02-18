@@ -148,8 +148,24 @@ public class loljeonjeok {
 								+ ((Double.parseDouble(stats.get("kills").toString())
 										+ Integer.parseInt(stats.get("assists").toString()))
 										/ Integer.parseInt(stats.get("deaths").toString())));
-				System.out.println("역할 : " + timeline.get("role"));
-				System.out.println("라인 : " + timeline.get("lane"));
+			
+				
+					String playerLane = null;
+				if (timeline.get("role").equals("DUO_SUPPORT")) {
+					playerLane = "서포터";
+				} else if (timeline.get("role").equals("DUO_CARRY")) {
+					playerLane = "원거리 딜러";
+				} else if (timeline.get("lane").equals("MIDDLE")) {
+					playerLane = "미드";
+				} else if (timeline.get("lane").equals("JUNGLE")) {
+					playerLane = "정글";
+				} else if (timeline.get("lane").equals("TOP")) {
+					playerLane = "탑";
+				}
+				System.out.println("라인 : " + playerLane);
+				
+				
+				
 				System.out.println("구매한 아이템 : " + stats.get("item0") + "," + stats.get("item1") + ","
 						+ stats.get("item2") + "," + stats.get("item3") + "," + stats.get("item4") + ","
 						+ stats.get("item5") + "\n장신구: " + stats.get("item6"));
