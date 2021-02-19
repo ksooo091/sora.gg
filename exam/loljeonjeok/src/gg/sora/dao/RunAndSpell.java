@@ -39,7 +39,7 @@ public class RunAndSpell {
 			return "perk-images/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbook.png";
 		case 8358: // 만능의 돌
 			return "perk-images/Styles/Inspiration/MasterKey/MasterKey.png";
-		 case 7200: // 지배
+		 case 8100: // 지배
 		 return "perk-images/Styles/7200_Domination.png";
 		 case 8300: // 영감
 			 return "perk-images/Styles/7203_Whimsy.png";
@@ -47,6 +47,8 @@ public class RunAndSpell {
 			 return "perk-images/Styles/7201_Precision.png";
 		 case 8400: // 결의
 			 return "perk-images/Styles/7204_Resolve.png";
+		 case 8200: // 마법
+			 return "perk-images/Styles/7202_Sorcery.png";
 		// case : //
 		// return "";
 
