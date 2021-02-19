@@ -26,6 +26,7 @@ public class DAO {
 	static String sid = null;
 	String api = "RGAPI-a531df28-32d7-4b3e-bbf7-78897704cbd4";
 	HttpsURLConnection huc = null;
+	
 
 	public void apiver(HttpServletRequest request) {
 		String url = "https://ddragon.leagueoflegends.com/api/versions.json";
@@ -121,7 +122,7 @@ public class DAO {
 			}
 			request.setAttribute("mls", matchlist);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 			System.out.println("출력오류ㅠ");
 		}
 
@@ -147,6 +148,11 @@ public class DAO {
 			JSONObject blueteaminfo = (JSONObject) teams.get(0); // 블루팀 데이터
 			JSONObject purpleteaminfo = (JSONObject) teams.get(1); // 레드팀 데이터
 			ArrayList<matchdetailDTO> mde = new ArrayList<>();
+			int sec = Integer.parseInt(loldata.get("gameDuration").toString());
+			int  min = sec/60;
+			sec = sec%60;
+			request.setAttribute("min", min);
+			request.setAttribute("sec", sec);
 			if (Integer.parseInt(loldata.get("queueId").toString()) == 420) { // 솔로랭크 일때만 밴 목록 출력
 				JSONArray bluebans = (JSONArray) blueteaminfo.get("bans");
 				JSONArray purplebans = (JSONArray) purpleteaminfo.get("bans");
@@ -174,38 +180,25 @@ public class DAO {
 				JSONObject participant2 = (JSONObject) participantIdentities.get(i); // 인게임 외적 정보
 				JSONObject player = (JSONObject) participant2.get("player");
 				JSONObject timeline = (JSONObject) participant1.get("timeline");
-				int pId = Integer.parseInt(participant2.get("participantId").toString());
-				System.out.println("게임 내 구성원 번호 " + pId);
+			//	int pId = Integer.parseInt(participant2.get("participantId").toString());
 
 				if ((boolean) stats.get("win")) {
 					dto.setWin("승리");
-					System.out.println("게임 결과 : 승리 ");
 				} else {
 					dto.setWin("패배");
-					System.out.println("게임 결과 : 패배 ");
 				}
 				dto.setSummonerName(String.valueOf(player.get("summonerName")));
-				System.out.println("소환사명 " + player.get("summonerName"));
 				dto.setChampionEn(champ.champnameEn(Integer.parseInt(participant1.get("championId").toString())));
 				dto.setChampionKr(champ.champnameKr(Integer.parseInt(participant1.get("championId").toString())));
-				System.out.println(
-						"플레이한 챔피언 :" + champ.champnameKr(Integer.parseInt(participant1.get("championId").toString())));
 
 				dto.setPosition(QueAndPo.position(timeline.get("lane"), timeline.get("role")));
 
-				System.out.println(timeline.get("lane"));
-				System.out.println(timeline.get("role"));
 				dto.setKills(Integer.parseInt(stats.get("kills").toString()));
 				dto.setDeaths(Integer.parseInt(stats.get("deaths").toString()));
 				dto.setAssists(Integer.parseInt(stats.get("assists").toString()));
 				dto.setKda(((Double.parseDouble(stats.get("kills").toString())
 						+ Integer.parseInt(stats.get("assists").toString()))
 						/ Integer.parseInt(stats.get("deaths").toString())));
-				System.out.println(
-						stats.get("kills") + "/" + stats.get("deaths") + "/" + stats.get("assists") + "\nkda : "
-								+ ((Double.parseDouble(stats.get("kills").toString())
-										+ Integer.parseInt(stats.get("assists").toString()))
-										/ Integer.parseInt(stats.get("deaths").toString())));
 
 				dto.setItem0(stats.get("item0"));
 				dto.setItem1(stats.get("item1"));
@@ -214,13 +207,12 @@ public class DAO {
 				dto.setItem4(stats.get("item4"));
 				dto.setItem5(stats.get("item5"));
 				dto.setItem6(stats.get("item6"));
-
-				System.out.println("구매한 아이템 : " + stats.get("item0") + "," + stats.get("item1") + ","
-						+ stats.get("item2") + "," + stats.get("item3") + "," + stats.get("item4") + ","
-						+ stats.get("item5") + "\n장신구: " + stats.get("item6"));
+				dto.setPerkSubStyle(RunAndSpell.perks(Integer.parseInt(stats.get("perkSubStyle").toString())));
+				dto.setKeyperks(RunAndSpell.perks(Integer.parseInt(stats.get("perk0").toString())));
+				dto.setSpell1Id(RunAndSpell.spell(Integer.parseInt(participant1.get("spell1Id").toString())));
+				dto.setSpell2Id(RunAndSpell.spell(Integer.parseInt(participant1.get("spell2Id").toString())));
 				if ((boolean) stats.get("firstBloodKill")) {
 					dto.setPb("선취점!");
-					System.out.println("선취점!");
 				}
 				System.out.println("=====================");
 				mde.add(dto);
@@ -233,7 +225,7 @@ public class DAO {
 
 	}
 
-	// 미완성
+	
 	public void ingamenowdetail(HttpServletRequest request) {
 		apiver(request);
 		try {
