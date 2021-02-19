@@ -21,7 +21,7 @@
 <h3 style="color:red">레드팀</h3>
 </c:if>
 <table>
-<tr><td><img src="https://ddragon.leagueoflegends.com/cdn/${curVer }/img/champion/${ig.championIdEn }.png"><br>${ig.championIdKr}</td><td></td></tr>
+<tr><td><img src="https://ddragon.leagueoflegends.com/cdn/${curVer }/img/champion/${ig.championIdEn }.png" height="100px" width="100px">><br>${ig.championIdKr}</td><td></td></tr>
 <tr><td><img src="https://ddragon.leagueoflegends.com/cdn/${curVer}/img/spell/${ig.spell1Id }" height="20px" width="20px"><img src="https://ddragon.leagueoflegends.com/cdn/${curVer}/img/spell/${ig.spell2Id }" height="20px" width="20px"></td>
 <td><img src="https://ddragon.leagueoflegends.com/cdn/img/${ig.keyperks }" height="20px" width="20px"><img src="https://ddragon.leagueoflegends.com/cdn/img/${ig.perkSubStyle }" height="20px" width="20px"></td></tr>
 </table>
